@@ -1,0 +1,49 @@
+---
+
+# Needed to refer to other nodes (using hostvars) during serial execution
+- name: Create inventory for nodes
+  hosts: datanodes
+ # remote_user: "{{remote_user}}"
+ # become: true
+ # become_method: sudo
+ # become_user: root
+ # tags: "data-node"
+ # tasks:
+#    - setup:
+
+#- name: Setup data nodes
+#  hosts: datanodes
+#  remote_user: "{{remote_user}}"
+#  sudo: True
+#  roles:
+#    - { role: data-node, tags: ['data-node']  }
+#    - { role: check-mk, tags: ['check-mk'] }
+
+# Needed to refer to other nodes (using hostvars) during serial execution
+#- name: Create inventory for nodes
+#  hosts: clusternodes
+#  remote_user: "{{remote_user}}"
+#  become: true
+#  become_method: sudo
+#  become_user: root
+#  tags: "cluster-node"
+#  tasks:
+#    - setup:
+
+#- name: Setup cluster nodes
+#  hosts: clusternodes
+#  serial: 1
+#  remote_user: "{{remote_user}}"
+#  become: true
+#  become_method: sudo
+#  become_user: root
+#  roles:
+#    - { role: cluster-node, tags: ['cluster-node'] }
+#    - { role: check-mk, tags: ['check-mk'] }
+#    - { role: nginx, tags: ['nginx'] }
+
+- name: Setup base cluster nodes
+  hosts: local
+  roles:
+   - { role: rsyslog-source, tags: ['rsyslog-source'] }
+

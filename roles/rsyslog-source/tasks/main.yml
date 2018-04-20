@@ -1,0 +1,19 @@
+---
+#
+# RSyslog tasks
+#
+- name: Configure rsyslog
+  template: src=etc/rsyslog.conf.j2 dest=/etc/rsyslog.conf mode=644
+  notify: Restart rsyslog
+
+- name: Check user /var/log/messages
+  stat: path=/var/log/messages
+  register: pds_messages
+
+- name: Delete old log messages
+  shell: rm -r messages*
+  args:
+      chdir: /var/log
+      creates: rsyslog.pds.changed
+  when: pds_messages.stat.pw_name != 'pds'
+  notify: Rotate logs

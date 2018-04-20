@@ -1,0 +1,9 @@
+---
+# 
+# RSyslog handlers
+#
+- name: Restart rsyslog
+  service: name=rsyslog state=restarted enabled=yes
+
+- name: Rotate logs
+  shell: logrotate -f /etc/logrotate.conf

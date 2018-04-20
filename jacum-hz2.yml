@@ -1,0 +1,8 @@
+---
+#
+#  ACCEPT: Setup DHl Parcel Cloud Platform in ITS
+#
+- include: cluster.yml
+  vars:
+    cluster_name: jacum-cluster
+    http_proxy: http://cluster.jacum.com:8080
