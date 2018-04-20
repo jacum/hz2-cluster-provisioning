@@ -56,6 +56,9 @@ $IMJournalStateFile imjournal.state
 # Logging much else clutters up the screen.
 #kern.*                                                 /dev/console
 
+# Platform logs
+user.*                                                  /var/log/platform/platform.log
+
 # Log anything (except mail) of level info or higher.
 # Don't log private authentication messages!
 *.info;mail.none;authpriv.none;cron.none                /var/log/messages
