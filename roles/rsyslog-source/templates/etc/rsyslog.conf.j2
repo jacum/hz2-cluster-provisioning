@@ -59,27 +59,27 @@ $IMJournalStateFile imjournal.state
 # Log anything (except mail) of level info or higher.
 # Don't log private authentication messages!
 *.info;mail.none;authpriv.none;cron.none                /var/log/messages
-*.info;mail.none;authpriv.none;cron.none                @czchols018.prg-dc.dhl.com
+*.info;mail.none;authpriv.none;cron.none                @{{syslog_server}}
 
 # The authpriv file has restricted access.
 authpriv.*                                              /var/log/secure
-authpriv.*                                              @czchols018.prg-dc.dhl.com
+authpriv.*                                              @{{syslog_server}}
 
 # Log all the mail messages in one place.
 mail.*                                                  -/var/log/maillog
-mail.*                                                  @czchols018.prg-dc.dhl.com
+mail.*                                                  @{{syslog_server}}
 
 # Log cron stuff
 cron.*                                                  /var/log/cron
-cron.*                                                  @czchols018.prg-dc.dhl.com
+cron.*                                                  @{{syslog_server}}
 
 # Everybody gets emergency messages
 *.emerg                                                 :omusrmsg:*
-*.emerg                                                 @czchols018.prg-dc.dhl.com
+*.emerg                                                 @{{syslog_server}}
 
 # Save news errors of level crit and higher in a special file.
 uucp,news.crit                                          /var/log/spooler
-uucp,news.crit                                          @czchols018.prg-dc.dhl.com
+uucp,news.crit                                          @{{syslog_server}}
 
 # Save boot messages also to boot.log
 local7.*                                                /var/log/boot.log

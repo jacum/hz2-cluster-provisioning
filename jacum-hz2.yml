@@ -6,3 +6,4 @@
   vars:
     cluster_name: jacum-cluster
     http_proxy: http://cluster.jacum.com:8080
+    syslog-server: 192.168.122.109
