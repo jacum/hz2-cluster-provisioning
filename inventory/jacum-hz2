@@ -9,6 +9,54 @@
 #   - A hostname/ip can be a member of multiple groups
 
 
+[mesos-masters]
+hz2-n01
+hz2-n02
+hz2-n03
+
+[mesos-slaves]
+hz2-n01
+hz2-n02
+hz2-n03
+hz2-n04
+hz2-n05
+hz2-n06
+hz2-n07
+hz2-n08
+#azure-node1
+#azure-node2
+#azure-node3
+
+[generic-cluster-nodes]
+hz2-n01
+hz2-n02
+hz2-n03
+hz2-n04
+hz2-n05
+hz2-n06
+hz2-n07
+hz2-n08
+
+[log-server]
+hz2-n09
+
+[local]
+hz2-n01 ansible_ssh_host=192.168.122.101 ansible_ssh_user=root
+hz2-n02 ansible_ssh_host=192.168.122.102 ansible_ssh_user=root 
+hz2-n03 ansible_ssh_host=192.168.122.103 ansible_ssh_user=root
+hz2-n04 ansible_ssh_host=192.168.122.104 ansible_ssh_user=root
+hz2-n05 ansible_ssh_host=192.168.122.105 ansible_ssh_user=root
+hz2-n06 ansible_ssh_host=192.168.122.106 ansible_ssh_user=root
+hz2-n07 ansible_ssh_host=192.168.122.107 ansible_ssh_user=root
+hz2-n08 ansible_ssh_host=192.168.122.108 ansible_ssh_user=root
+hz2-n09 ansible_ssh_host=192.168.122.109 ansible_ssh_user=root
+
+[azure]
+azure-node1 ansible_ssh_host=52.143.138.52
+azure-node2 ansible_ssh_host=52.143.143.208
+azure-node3 ansible_ssh_host=52.143.138.152
+
+
 [cluster]
 hz2-n01
 hz2-n02
@@ -36,37 +84,3 @@ hz2-n05
 hz2-n06
 hz2-n07
 hz2-n08
-
-[mesos-masters]
-hz2-n01
-hz2-n02
-hz2-n03
-
-[mesos-slaves]
-hz2-n01
-hz2-n02
-hz2-n03
-hz2-n04
-hz2-n05
-hz2-n06
-hz2-n07
-hz2-n08
-#azure-node1
-#azure-node2
-#azure-node3
-
-[local]
-hz2-n01 ansible_ssh_host=192.168.122.101 ansible_ssh_user=root
-hz2-n02 ansible_ssh_host=192.168.122.102 ansible_ssh_user=root 
-hz2-n03 ansible_ssh_host=192.168.122.103 ansible_ssh_user=root
-hz2-n04 ansible_ssh_host=192.168.122.104 ansible_ssh_user=root
-hz2-n05 ansible_ssh_host=192.168.122.105 ansible_ssh_user=root
-hz2-n06 ansible_ssh_host=192.168.122.106 ansible_ssh_user=root
-hz2-n07 ansible_ssh_host=192.168.122.107 ansible_ssh_user=root
-hz2-n08 ansible_ssh_host=192.168.122.108 ansible_ssh_user=root
-
-[azure]
-azure-node1 ansible_ssh_host=52.143.138.52
-azure-node2 ansible_ssh_host=52.143.143.208
-azure-node3 ansible_ssh_host=52.143.138.152
-

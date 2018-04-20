@@ -43,7 +43,7 @@
 #    - { role: nginx, tags: ['nginx'] }
 
 - name: Setup base cluster nodes
-  hosts: local
+  hosts: generic-cluster-nodes
   roles:
    - { role: rsyslog-source, tags: ['rsyslog-source'] }
 
