@@ -48,7 +48,7 @@
    - { role: rsyslog-source, tags: ['rsyslog-source'] }
 
 - name: Setup log aggregation server
-  hosts:
+  hosts: log-server
   roles:
    - { role: rsyslog-sink, tags: ['rsyslog-sink'] }
 
