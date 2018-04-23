@@ -84,3 +84,8 @@ hz2-n05
 hz2-n06
 hz2-n07
 hz2-n08
+
+[kafka-nodes]
+hz2-n04
+hz2-n05
+hz2-n06
