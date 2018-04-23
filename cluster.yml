@@ -55,4 +55,4 @@
 - name: Setup Kafka nodes
   hosts: kafka-nodes
   roles:
-   - { role: }
+   - { role: mesos-kafka, tags: ['kafka']}
