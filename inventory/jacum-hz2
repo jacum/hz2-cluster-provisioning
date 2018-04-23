@@ -14,6 +14,13 @@ hz2-n01
 hz2-n02
 hz2-n03
 
+[mesos-nonmasters]
+hz2-n04
+hz2-n05
+hz2-n06
+hz2-n07
+hz2-n08
+
 [mesos-slaves]
 hz2-n01
 hz2-n02
