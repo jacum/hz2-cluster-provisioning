@@ -52,3 +52,7 @@
   roles:
    - { role: rsyslog-sink, tags: ['rsyslog-sink'] }
 
+- name: Setup Kafka nodes
+  hosts: kafka-nodes
+  roles:
+   - { role: }

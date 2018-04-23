@@ -1,0 +1,12 @@
+- name: Ensure kafka system user exists
+  user:
+    name: kafka
+    system: yes
+    shell: /sbin/nologin
+
+- name: Ensure kafka data directory exists and is owned by kafka
+  file:
+    path: /data/kafka
+    state: directory
+    owner: kafka
+    group: kafka
