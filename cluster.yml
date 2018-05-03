@@ -56,3 +56,26 @@
   hosts: kafka-nodes
   roles:
    - { role: mesos-kafka, tags: ['kafka']}
+
+- name: Prometheus node exporter
+  hosts: local
+  roles:
+   - role: prometheus-node-exporter
+     tags: ['prometheus-node-exporter']
+     prometheus_node_exporter_version: 0.15.1
+     prometheus_node_exporter_enabled_collectors:
+       - cpu
+       - diskstats
+       - entropy
+       - filesystem
+       - loadavg
+       - meminfo
+     prometheus_node_exporter_config_flags:
+       'web.listen-address': '0.0.0.0:9100'
+       'log.level': 'info'
+
+- name: Prometheus JMX exporter
+  hosts: mesos-slaves
+  roles:
+   - role: prometheus-jmx-exporter
+     tags: ['prometheus-jmx-exporter']
