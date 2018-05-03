@@ -1,0 +1,16 @@
+---
+
+- name: JMX_EXPORTER | Install
+  include: install.yml
+  tags:
+    - install
+
+- name: JMX_EXPORTER | Configure
+  include: config.yml
+  tags:
+    - configure
+
+- name: JMX_EXPORTER | Service
+  include: service.yml
+  tags:
+    - service
