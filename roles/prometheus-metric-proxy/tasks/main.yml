@@ -20,7 +20,11 @@
   yum: name=epel-release state=present
 
 - name: Copy Nginx metric generator script
-  template: src=opt/prometheus/make_nginx_config.py.j2 dest=/opt/prometheus/make_nginx_config.py mode=755
+  copy:
+    src: "opt/prometheus/make_nginx_config.py"
+    dest: "/opt/prometheus/make_nginx_config.py"
+    owner: "root"
+    mode: 0700
 
 - name: Install nginx web server
   yum: name=nginx state=installed update_cache=true
