@@ -1,0 +1,35 @@
+---
+- name: Install libselinux as prerequisite for SELinux Ansible module
+  yum:
+    name: "{{item}}"
+    state: latest
+  with_items:
+    - libselinux-python
+    - libsemanage-python
+
+- name: Disable SELinux at next reboot
+  selinux:
+    state: disabled
+
+- name: Set SELinux in permissive mode until the machine is rebooted
+  command: setenforce 0
+  ignore_errors: true
+  changed_when: false
+
+- name: Install EPEL release for nginx
+  yum: name=epel-release state=present
+
+- name: Copy Nginx metric generator script
+  template: src=opt/prometheus/make-nginx-config.py.j2 dest=/opt/prometheus/make-nginx-config.py mode=755
+
+- name: Install nginx web server
+  yum: name=nginx state=installed update_cache=true
+  notify:
+    - Start nginx
+
+- name: Create cron to generate configs
+  cron:
+    name: "Remove XML's Iberia streamer after 30 days"
+    user: "root"
+    job: "/opt/prometheus/make-nginx-config.py -H http://cluster.jacum.com:8080 -U admin -P comeonletmein >/etc/nginx/default.d/metrics.conf"
+    cron_file: nginx-metrics-proxy
