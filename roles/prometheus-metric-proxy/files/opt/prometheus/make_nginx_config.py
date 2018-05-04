@@ -71,6 +71,7 @@ for app in raw_json['apps']:
                                        "url" : metric_url})
                 proxy_config += """
 location = /metrics/{app_id}/{task_number} {{
+    proxy_set_header Accept-Encoding "";
     proxy_pass http://{this_host}:{port}/{metric_path};
 }}
 """.format(app_id=app_id,
