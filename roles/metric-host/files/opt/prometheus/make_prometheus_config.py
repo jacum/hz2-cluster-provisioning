@@ -8,26 +8,22 @@
 
 import json
 import urllib2
-import commands
-from string import Template
 
 # configuration of marathon cluster
-
 metric_proxy_port = 8008 # marathon metric proxy
 metric_host_port = 9100  # marathon host exporter
 
 scheme = 'http://'
 
 metric_proxy_hosts = [
-    {"name": 'test', "host": 'cluster.jacum.com'}
-    # {"name": 'hz2-n01', "host": '192.168.122.101'},
-    # {"name": 'hz2-n02', "host": '192.168.122.102'},
-    # {"name": 'hz2-n03', "host": '192.168.122.103'},
-    # {"name": 'hz2-n04', "host": '192.168.122.104'},
-    # {"name": 'hz2-n05', "host": '192.168.122.105'},
-    # {"name": 'hz2-n06', "host": '192.168.122.106'},
-    # {"name": 'hz2-n07', "host": '192.168.122.107'},
-    # {"name": 'hz2-n08', "host": '192.168.122.108'}
+    {"name": 'hz2-n01', "host": '192.168.122.101'},
+    {"name": 'hz2-n02', "host": '192.168.122.102'},
+    {"name": 'hz2-n03', "host": '192.168.122.103'},
+    {"name": 'hz2-n04', "host": '192.168.122.104'},
+    {"name": 'hz2-n05', "host": '192.168.122.105'},
+    {"name": 'hz2-n06', "host": '192.168.122.106'},
+    {"name": 'hz2-n07', "host": '192.168.122.107'},
+    {"name": 'hz2-n08', "host": '192.168.122.108'}
 ]
 
 
