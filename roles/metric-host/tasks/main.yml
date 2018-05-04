@@ -1,14 +1,21 @@
 ---
-- name: Copy Nginx metric generator script
+- name: Copy Prometheus metric generator script
   copy:
     src: "opt/prometheus/make_prometheus_config.py"
     dest: "/opt/prometheus/make_prometheus_config.py"
     owner: "root"
     mode: 0700
 
-- name: Create cron to generate configs
+- name: Copy Prometheus cron script
+  copy:
+    src: "opt/prometheus/refresh_prometheus_config.sh"
+    dest: "/opt/prometheus/refresh_prometheus_config.sh"
+    owner: "root"
+    mode: 0700
+
+- name: Create cron job to generate configs
   cron:
-    name: "Remove XML's Iberia streamer after 30 days"
+    name: "Install cron job"
     user: "root"
     job: "/opt/prometheus/refresh_prometheus_config.sh"
     cron_file: nginx-metrics-proxy

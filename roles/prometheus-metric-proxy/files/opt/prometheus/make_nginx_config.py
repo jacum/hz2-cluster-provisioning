@@ -69,10 +69,12 @@ for app in raw_json['apps']:
                 metric_url = "/metrics/{app_id}/{task_number}".format(app_id=app_id,task_number=task_number)
                 proxy_contents.append({"job" : app_id + "-" + str(task_number),
                                        "url" : metric_url})
-                proxy_config += """location = /metrics/{app_id}/{task_number} {{
+                proxy_config += """
+location = /metrics/{app_id}/{task_number} {{
     proxy_buffering off;
     proxy_pass http://{this_host}:{port}/{metric_path};
-}}""".format(app_id=app_id,
+}}
+""".format(app_id=app_id,
              this_host=this_host,
              port=port,
              metric_path=metric_path,
