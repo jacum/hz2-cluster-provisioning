@@ -71,8 +71,9 @@ for app in raw_json['apps']:
                                        "url" : metric_url})
                 proxy_config += """
 location = /metrics/{app_id}/{task_number} {{
-    proxy_buffering off;
-    proxy_ignore_client_abort on;
+    proxy_buffering on;
+    proxy_buffer_size 8k;
+    proxy_buffers 2048 8k;
     proxy_pass http://{this_host}:{port}/{metric_path};
 }}
 """.format(app_id=app_id,
