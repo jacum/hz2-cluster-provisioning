@@ -1,9 +1,8 @@
 ---
-
-- name: Copy Prometheus metric generator script
+- name: Install Prometheus  repo config
   copy:
-    src: "etc/yum.repos.d/prometheus.repo"
-    dest: "/etc/yum.repos.d/prometheus.repo"
+    src: "etc/yum.repos.d/monitoring.repo"
+    dest: "/etc/yum.repos.d/monitoring.repo"
     owner: "root"
     mode: 0700
 
