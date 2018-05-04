@@ -63,7 +63,7 @@ for app in raw_json['apps']:
     if metric_port_position >= 0:
         for task in app['tasks']:
             host = task['host']
-            task_number = + 1
+            task_number += 1
             if host == this_host:
                 port = task['ports'][metric_port_position]
                 metric_url = "/metrics/{app_id}/{task_number}".format(app_id=app_id,task_number=task_number)
