@@ -14,7 +14,7 @@
     update_cache=yes
   with_items:
     - prometheus
-    - grafana-server
+    - grafana
 
 - name: Copy Prometheus metric generator script
   copy:
