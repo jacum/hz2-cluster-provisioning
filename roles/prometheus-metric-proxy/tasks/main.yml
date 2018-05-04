@@ -51,3 +51,9 @@
     user: "root"
     job: "/opt/prometheus/refresh_nginx_config.sh"
     cron_file: nginx-metrics-proxy
+
+- name: Remove MAILTO from cron
+  lineinfile:
+    path: /etc/crontab
+    state: absent
+    regexp: '^MAILTO'

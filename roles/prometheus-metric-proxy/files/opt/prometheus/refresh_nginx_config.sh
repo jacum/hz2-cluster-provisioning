@@ -5,9 +5,7 @@ new_config=/tmp/metrics.conf
 
 update_and_restart()
 {
-cp $new_config $existing_config
-service nginx reload
-echo "config updated and reloaded"
+cp $new_config $existing_config && /sbin/service nginx reload && echo "config updated and reloaded"
 }
 
 /opt/prometheus/make_nginx_config.py -H http://cluster.jacum.com:8080 -U admin -P comeonletmein >$new_config
