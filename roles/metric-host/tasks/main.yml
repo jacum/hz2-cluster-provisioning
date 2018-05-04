@@ -12,7 +12,7 @@
     state=latest
     update_cache=yes
   with_items:
-    - prometheus
+    - prometheus2
     - grafana
   notify:
     - Restart prometheus
