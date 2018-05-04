@@ -51,8 +51,9 @@ for metered_host in metric_proxy_hosts:
     for job in metric_jobs_on_host:
         marathon_tasks += """
   - job_name: '{name}'
+    metrics_path: {url}
     static_configs:
-    - targets: ['{host}:{port}{url}']""".format(name=job['job'], host=host, port=metric_proxy_port, url=job['url'])
+    - targets: ['{host}:{port}']""".format(name=job['job'], host=host, port=metric_proxy_port, url=job['url'])
 
 print("""global:
   scrape_interval:     30s
