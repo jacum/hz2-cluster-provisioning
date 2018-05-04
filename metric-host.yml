@@ -1,0 +1,6 @@
+- name: Metric host
+  hosts: log-server
+  roles:
+   - role: metric-host
+     tags: ['metric-host']
+

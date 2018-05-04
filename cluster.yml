@@ -85,3 +85,10 @@
   roles:
    - role: prometheus-metric-proxy
      tags: ['prometheus-metric-proxy']
+
+- name: Metric host
+  hosts: log-server
+  roles:
+   - role: metric-host
+     tags: ['metric-host']
+

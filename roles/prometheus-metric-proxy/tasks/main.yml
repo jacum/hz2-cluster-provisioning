@@ -19,6 +19,9 @@
 - name: Install EPEL release for nginx
   yum: name=epel-release state=present
 
+- name: Install nginx web server
+  yum: name=nginx state=installed update_cache=true
+
 - name: Copy Nginx metric generator script
   copy:
     src: "opt/prometheus/make_nginx_config.py"
@@ -26,8 +29,12 @@
     owner: "root"
     mode: 0700
 
-- name: Install nginx web server
-  yum: name=nginx state=installed update_cache=true
+- name: Copy Nginx config reload script
+  copy:
+    src: "opt/prometheus/refresh_nginx_config.sh"
+    dest: "/opt/prometheus/refresh_nginx_config.sh"
+    owner: "root"
+    mode: 0700
 
 - name: Copy Nginx config
   copy:
@@ -40,7 +47,7 @@
 
 - name: Create cron to generate configs
   cron:
-    name: "Remove XML's Iberia streamer after 30 days"
+    name: "Install refresh nginx proxy config cron job"
     user: "root"
-    job: "/opt/prometheus/make_nginx_config.py -H http://cluster.jacum.com:8080 -U admin -P comeonletmein >/etc/nginx/default.d/metrics.conf"
+    job: "/opt/prometheus/refresh_nginx_config.sh"
     cron_file: nginx-metrics-proxy

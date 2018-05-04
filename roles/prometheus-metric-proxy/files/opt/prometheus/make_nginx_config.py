@@ -11,6 +11,8 @@ import urllib2
 import commands
 import argparse
 
+# this may need to be adjusted
+this_host = commands.getoutput('cat /etc/default/mesos-slave | grep MESOS_HOSTNAME | sed -e "s/MESOS_HOSTNAME=//"')
 
 def find_metric_port(mappings):
     port_position = 0
@@ -37,8 +39,6 @@ parser.add_argument('-P', '--password',
 args = parser.parse_args()
 
 marathon_url = "{host}/v2/apps/?embed=apps.tasks".format(host=args.host)
-req = urllib2.Request(url=marathon_url,
-                      headers={'Content-Type': 'application/json', 'Accept': 'application/json'})
 
 password_manager = urllib2.HTTPPasswordMgrWithDefaultRealm()
 password_manager.add_password(None, marathon_url, args.user, args.password)
@@ -50,10 +50,8 @@ urllib2.install_opener(opener)
 apps_tasks_data = urllib2.urlopen(marathon_url).read()
 raw_json = json.loads(apps_tasks_data)
 
-this_host = commands.getoutput('cat /etc/default/mesos-slave | grep MESOS_HOSTNAME | sed -e "s/MESOS_HOSTNAME=//"')
-
 proxy_config = ""
-proxy_contents = ""
+proxy_contents = []
 
 for app in raw_json['apps']:
     app_id = app['id'].strip('/')
@@ -68,8 +66,9 @@ for app in raw_json['apps']:
             task_number = + 1
             if host == this_host:
                 port = task['ports'][metric_port_position]
-                proxy_contents += "/metrics/{app_id}/{task_number}\\n".format(app_id=app_id,
-                                                                              task_number=task_number)
+                metric_url = "/metrics/{app_id}/{task_number}".format(app_id=app_id,task_number=task_number)
+                proxy_contents.append({"job" : app_id + "-" + str(task_number),
+                                       "url" : metric_url})
                 proxy_config += """location = /metrics/{app_id}/{task_number} {{
     proxy_buffering off;
     proxy_pass http://{this_host}:{port}/{metric_path};
@@ -81,7 +80,7 @@ for app in raw_json['apps']:
 
 print("""location = /metrics {{
     return 200 '{contents}';
-    add_header Content-Type text/plain;
+    add_header Content-Type application/json;
 }}
 {proxy_config}
-""".format(contents=proxy_contents, proxy_config=proxy_config))
+""".format(contents=json.dumps(proxy_contents), proxy_config=proxy_config))
