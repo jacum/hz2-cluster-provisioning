@@ -6,7 +6,7 @@ new_config=/tmp/metrics.conf
 update_and_restart()
 {
 cp $new_config $existing_config
-/sbin/service nginx reload
+/sbin/service nginx restart
 echo "config updated and reloaded"
 }
 
