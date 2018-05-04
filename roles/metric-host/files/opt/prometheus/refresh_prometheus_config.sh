@@ -11,4 +11,4 @@ echo "config updated and reloaded"
 }
 
 /opt/prometheus/make_prometheus_config.py >$new_config
-cmp --silent $existing_config $new_config && echo "config not changed" || update_and_restart
+cmp --silent $existing_config $new_config || update_and_restart
