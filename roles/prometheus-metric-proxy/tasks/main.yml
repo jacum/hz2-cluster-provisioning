@@ -43,17 +43,19 @@
     owner: "root"
     mode: 0700
   notify:
-    - Start nginx
+    - Restart nginx
 
 - name: Create cron to generate configs
   cron:
     name: "Nginx config update"
     user: "root"
     job: "/opt/prometheus/refresh_nginx_config.sh"
-    cron_file: nginx-metrics-proxy
+    cron_file: update-nginx-metrics-proxy-config
 
 - name: Remove MAILTO from cron
   lineinfile:
     path: /etc/crontab
     state: absent
     regexp: '^MAILTO'
+  notify:
+    - Restart cron

@@ -1,5 +1,5 @@
 ---
-- name: Install Prometheus  repo config
+- name: Install Monitoring repo config
   copy:
     src: "etc/yum.repos.d/monitoring.repo"
     dest: "/etc/yum.repos.d/monitoring.repo"
@@ -14,6 +14,9 @@
   with_items:
     - prometheus
     - grafana
+  notify:
+    - Restart prometheus
+    - Restart grafana
 
 - name: Copy Prometheus metric generator script
   copy:
@@ -34,4 +37,12 @@
     name: "Prometheus config update"
     user: "root"
     job: "/opt/prometheus/refresh_prometheus_config.sh"
-    cron_file: nginx-metrics-proxy
+    cron_file: prometheus-config-update
+
+- name: Remove MAILTO from cron
+  lineinfile:
+    path: /etc/crontab
+    state: absent
+    regexp: '^MAILTO'
+  notify:
+    - Restart cron

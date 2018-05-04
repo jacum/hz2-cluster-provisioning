@@ -1,4 +1,6 @@
 ---
 - name: Start nginx
-  service: name=nginx state=started enabled=yes
+  service: name=nginx state=restarted enabled=yes
 
+- name: Restart cron
+  service: name=crond state=restarted enabled=yes
