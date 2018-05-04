@@ -15,7 +15,7 @@
 
 - name: Create cron job to generate configs
   cron:
-    name: "Install cron job"
+    name: "Prometheus config update"
     user: "root"
     job: "/opt/prometheus/refresh_prometheus_config.sh"
     cron_file: nginx-metrics-proxy
