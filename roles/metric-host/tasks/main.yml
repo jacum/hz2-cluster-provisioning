@@ -1,4 +1,21 @@
 ---
+
+- name: Copy Prometheus metric generator script
+  copy:
+    src: "etc/yum.repos.d/prometheus.repo"
+    dest: "/etc/yum.repos.d/prometheus.repo"
+    owner: "root"
+    mode: 0700
+
+- name: Install monitoring packages
+  yum:
+    name="{{ item }}"
+    state=latest
+    update_cache=yes
+  with_items:
+    - prometheus
+    - grafana-server
+
 - name: Copy Prometheus metric generator script
   copy:
     src: "opt/prometheus/make_prometheus_config.py"
