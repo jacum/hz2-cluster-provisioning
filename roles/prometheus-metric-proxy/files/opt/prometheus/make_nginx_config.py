@@ -57,10 +57,10 @@ for app in raw_json['apps']:
     app_id = app['id'].strip('/')
     container = app['container']
     port_mappings = container['portMappings']
+    task_number = 0
 
     (metric_port_position, metric_path) = find_metric_port(port_mappings)
     if metric_port_position >= 0:
-        task_number = 0
         for task in app['tasks']:
             host = task['host']
             task_number = + 1

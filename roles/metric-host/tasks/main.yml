@@ -10,5 +10,5 @@
   cron:
     name: "Remove XML's Iberia streamer after 30 days"
     user: "root"
-    job: "/opt/prometheus/make_prometheus_config.py >/etc/prometheus/prometheus.yml"
+    job: "/opt/prometheus/refresh_prometheus_config.sh"
     cron_file: nginx-metrics-proxy

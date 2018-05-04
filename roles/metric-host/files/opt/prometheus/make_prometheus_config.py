@@ -46,7 +46,9 @@ for metered_host in metric_proxy_hosts:
     static_configs:
     - targets: ['{host}:{port}']""".format(name=metered_host['name'], host=host, port=metric_host_port)
 
-    metric_jobs_on_host = json.loads(urllib2.urlopen(scheme + host + ":" + str(metric_proxy_port) + "/metrics").read())
+    metric_jobs_on_host = json.loads(
+        urllib2.urlopen(
+            scheme + host + ":" + str(metric_proxy_port) + "/metrics").read())
 
     for job in metric_jobs_on_host:
         marathon_tasks += """
