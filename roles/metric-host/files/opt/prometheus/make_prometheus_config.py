@@ -43,7 +43,7 @@ def fetchJobsFrom(host):
     try:
         return json.loads(urllib2.urlopen(scheme + host + ":" + str(metric_proxy_port) + "/metrics").read())
     except:
-        print("Can't fetch services from " + host)
+#        print("Can't fetch services from " + host)
         return []
 
 for metered_host in metric_proxy_hosts:
