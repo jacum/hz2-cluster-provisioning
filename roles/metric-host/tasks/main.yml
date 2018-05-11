@@ -1,22 +1,22 @@
 ---
-- name: Install Monitoring repo config
-  copy:
-    src: "etc/yum.repos.d/monitoring.repo"
-    dest: "/etc/yum.repos.d/monitoring.repo"
-    owner: "root"
-    mode: 0700
-
-- name: Install monitoring packages
-  yum:
-    name="{{ item }}"
-    state=latest
-    update_cache=yes
-  with_items:
-    - prometheus2
-    - grafana
-  notify:
-    - Restart prometheus
-    - Restart grafana
+#- name: Install Monitoring repo config
+#  copy:
+#    src: "etc/yum.repos.d/monitoring.repo"
+#    dest: "/etc/yum.repos.d/monitoring.repo"
+#    owner: "root"
+#    mode: 0700
+#
+#- name: Install monitoring packages
+#  yum:
+#    name="{{ item }}"
+#    state=latest
+#    update_cache=yes
+#  with_items:
+#    - prometheus2
+#    - grafana
+#  notify:
+#    - Restart prometheus
+#    - Restart grafana
 
 - name: Copy Prometheus metric generator script
   copy:
