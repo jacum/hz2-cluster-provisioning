@@ -1,0 +1,60 @@
+global:
+  scrape_interval:     30s
+  evaluation_interval: 30s
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+
+scrape_configs:
+# own prometheus process and host
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: ['localhost:9090']
+
+  - job_name: 'prometheus-host'
+    static_configs:
+    - targets: ['localhost:9100']
+
+# marathon hosts
+
+  - job_name: 'hz2-n01'
+    static_configs:
+    - targets: ['192.168.122.101:9100']
+  - job_name: 'hz2-n02'
+    static_configs:
+    - targets: ['192.168.122.102:9100']
+  - job_name: 'hz2-n03'
+    static_configs:
+    - targets: ['192.168.122.103:9100']
+  - job_name: 'hz2-n04'
+    static_configs:
+    - targets: ['192.168.122.104:9100']
+  - job_name: 'hz2-n05'
+    static_configs:
+    - targets: ['192.168.122.105:9100']
+  - job_name: 'hz2-n06'
+    static_configs:
+    - targets: ['192.168.122.106:9100']
+  - job_name: 'hz2-n07'
+    static_configs:
+    - targets: ['192.168.122.107:9100']
+  - job_name: 'hz2-n08'
+    static_configs:
+    - targets: ['192.168.122.108:9100']
+
+  - job_name: 'marathon-tasks'
+    file_sd_configs:
+      - files:
+        - /etc/prometheus/marathon-tasks.json
+    refresh_interval: 1m

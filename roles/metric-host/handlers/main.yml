@@ -4,3 +4,6 @@
 
 - name: Restart grafana
   service: name=grafana-server state=restarted enabled=yes
+
+- name: Restart cron
+  service: name=cron state=restarted enabled=yes

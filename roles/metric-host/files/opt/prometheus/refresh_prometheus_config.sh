@@ -1,6 +1,6 @@
 #!/bin/sh
 
-existing_config=/etc/prometheus/prometheus.yml
+existing_config=/etc/prometheus/marathon-tasks.json
 new_config=/tmp/prometheus.yml
 
 update_and_restart()

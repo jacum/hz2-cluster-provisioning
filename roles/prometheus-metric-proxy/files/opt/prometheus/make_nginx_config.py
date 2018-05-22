@@ -12,7 +12,7 @@ import commands
 import argparse
 
 # this may need to be adjusted
-this_host = commands.getoutput('cat /etc/default/mesos-slave | grep MESOS_HOSTNAME | sed -e "s/MESOS_HOSTNAME=//"')
+#this_host = commands.getoutput('cat /etc/default/mesos-slave | grep MESOS_HOSTNAME | sed -e "s/MESOS_HOSTNAME=//"')
 
 def find_metric_port(mappings):
     port_position = 0
