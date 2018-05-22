@@ -1,0 +1,30 @@
+- debug: msg="Configuring slaves"
+
+- name: Check for init files
+  stat: path=/var/lib/pgsql/9.6/data/pg_log
+  register: db_init
+
+- name: Initialize database on slave
+  command: "pg_basebackup -R -D /var/lib/pgsql/9.6/data -h {{ postgres_master }} -U repl --xlog-method=stream --no-password"
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
+  when: db_init.stat.exists == False
+
+- name: Postgres configuration
+  template: src=var/lib/pgsql/9.6/data/postgresql.conf.j2 dest=/var/lib/pgsql/9.6/data/postgresql.conf  owner="{{ postgresql_admin_user }}" group="{{ postgresql_admin_user }}" mode=0640
+  notify: Reload postgres
+
+- name: Configure pg_hba
+  template: src=var/lib/pgsql/9.6/data/pg_hba.conf.j2 dest=/var/lib/pgsql/9.6/data/pg_hba.conf
+  notify: Reload postgres
+
+- name: Start postgres
+  service: name=postgresql-9.6.service state=started enabled=true
+
+# Crontab config
+- cron:
+    name: "Remove logs after 3 days"
+    user: "postgres"
+    minute: "3"
+    hour: "0,6,12,18"
+    job: "/bin/find /data/pgsql/9.6/pg_archive/  -maxdepth 1 -user postgres -mtime +3 -exec rm {} \\;"

@@ -1,0 +1,70 @@
+- ini_file:
+    path: /etc/systemd/system/multi-user.target.wants/postgresql-9.6.service
+    section: Unit
+    option: After
+    value: "syslog.target network.target network-online.target"
+    no_extra_spaces: yes
+  notify: Reload systemd
+
+- name: Authentication file for pg_basebackup
+  template: src=var/lib/pgsql/.pgpass.j2 dest=/var/lib/pgsql/.pgpass owner="{{ postgresql_admin_user }}" group="{{ postgresql_admin_user }}" mode=0600
+
+# The dummy file can be removed if the DB doesn't start because pg_xlog is full
+- name: Check if file exists
+  stat:
+    path: /var/lib/pgsql/9.6/data/pg_xlog/dummy_data1
+  register: dummy_data1
+
+- name: Create empty file with 20M size
+  command: /usr/bin/fallocate -l 20M /var/lib/pgsql/9.6/data/pg_xlog/dummy_data1
+  when: not dummy_data1.stat.exists or not dummy_data1.stat.size == 20971520
+
+- file:
+    path: /var/lib/pgsql/9.6/data/pg_xlog/dummy_data1
+    owner: "{{ postgresql_admin_user }}"
+    group: "{{ postgresql_admin_user }}"
+    mode: 0640
+
+- name: Check if file exists
+  stat:
+    path: /var/lib/pgsql/9.6/data/pg_xlog/dummy_data2
+  register: dummy_data2
+
+- name: Create empty file with 20M size
+  command: /usr/bin/fallocate -l 20M /var/lib/pgsql/9.6/data/pg_xlog/dummy_data2
+  when: not dummy_data2.stat.exists or not dummy_data2.stat.size == 20971520
+
+- file:
+    path: /var/lib/pgsql/9.6/data/pg_xlog/dummy_data2
+    owner: "{{ postgresql_admin_user }}"
+    group: "{{ postgresql_admin_user }}"
+    mode: 0640
+
+- name: Set permissions for data directory
+  file: 
+    path="{{ postgresql_data_dir }}/9.6/data"
+    state=directory
+    owner="{{ postgresql_admin_user }}" 
+    group="{{ postgresql_admin_user }}" 
+    mode=0700
+
+- name: Set permissions for log directory (needed for logwatch)
+  file:
+    path="/var/log/postgresql"
+    state=directory
+    owner="{{ postgresql_admin_user }}" 
+    group="{{ postgresql_admin_user }}" 
+    mode=0755
+
+- name: Copy metrics sql
+  copy:
+    src: "tmp/metrics.sql"
+    dest: "/tmp/metrics.sql"
+    owner: "{{ postgresql_admin_user }}"
+    mode: 0744
+
+- name: Execute metrics sql
+  command:  "psql -f /tmp/metrics.sql"
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
+  ignore_errors: yes

@@ -1,0 +1,16 @@
+- name: Install postgres
+  yum: 
+    name="{{ item }}" 
+    state=latest 
+    enablerepo="{{ yum_repos }}" 
+    update_cache=yes
+  with_items:
+    - postgresql96-server
+    - postgresql96-contrib
+    - postgresql96
+    - postgis2_96
+
+- name: Install required psycopg2 packages
+  yum: 
+    name=python-psycopg2 
+    state=latest

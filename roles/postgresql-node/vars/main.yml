@@ -1,0 +1,7 @@
+yum_repos: "RHEL_Server,RHEL_Server_updates,DHL_RHEL_base,DHL_RHEL_update,Unsupported_EPEL,RHEL_Server_optional,pgdg96"
+
+postgresql_admin_user: postgres
+postgres_repl_user: repl
+
+postgresql_data_dir: /data/pgsql
+

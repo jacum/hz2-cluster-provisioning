@@ -1,0 +1,8 @@
+- name: Reload postgres
+  service: name=postgresql-9.6.service state=reloaded
+
+- name: Restart postgres
+  service: name=postgresql-9.6.service state=reloaded
+
+- name: Reload systemd
+  command: systemctl daemon-reload

@@ -1,0 +1,8 @@
+- name: Stop postgres
+  service: name=postgres state=stopped
+
+- name: Remove directories
+  file: path="{{ item }}" state=absent
+  with_items:
+    - /data/pgsql
+    - /var/lib/pgsql/9.6/data

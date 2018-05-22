@@ -1,0 +1,44 @@
+- name: Create database
+  postgresql_db: name="{{ db_name}}"
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
+
+- name: ensure user has access to database
+  postgresql_user: db="{{ db_name }}" name="{{ db_user }}" password="{{ db_password }}" priv=ALL
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
+
+- name: ensure user does not have unnecessary privilege
+  postgresql_user: name="{{ db_user }}" role_attr_flags=NOSUPERUSER,NOCREATEDB
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
+
+- name: ensure no other user can access the database
+  postgresql_privs: db="{{ db_name }}" role=PUBLIC type=database priv=ALL state=absent
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
+
+- name: Ensure correct extensions are available
+  postgresql_ext: name="{{ item }}" db="{{ db_name }}"
+  with_items:
+    - hstore
+    - unaccent
+    - postgis
+    - pg_stat_statements
+    - pg_stat_plans
+    - pgstattuple
+    - pg_buffercache
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
+
+- name: Create text search configuration
+  command: "psql -d {{ db_name }} -c  'CREATE TEXT SEARCH CONFIGURATION simple_unaccent ( COPY = simple );'"
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
+  ignore_errors: yes
+
+- name: Create text search configuration
+  command:  "psql -d {{ db_name }} -c  'ALTER TEXT SEARCH CONFIGURATION public.simple_unaccent ALTER MAPPING FOR asciiword, asciihword, word, hword, hword_asciipart, hword_part WITH unaccent, simple;'"
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
+  ignore_errors: yes

@@ -47,6 +47,11 @@ hz2-n08
 [log-server]
 hz2-n09
 
+[postgres-node]
+hz2-n04 role=master
+hz2-n05 role=slave
+hz2-n06 role=slave
+
 [local]
 hz2-n01 ansible_ssh_host=192.168.122.101 ansible_ssh_user=root
 hz2-n02 ansible_ssh_host=192.168.122.102 ansible_ssh_user=root 

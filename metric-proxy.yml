@@ -1,7 +1,0 @@
----
-- name: Metric proxy
-  hosts: local
-  roles:
-   - role: prometheus-metric-proxy
-     tags: ['prometheus-metric-proxy']
-

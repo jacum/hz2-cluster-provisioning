@@ -1,0 +1,65 @@
+---
+#
+# Postgres node  config
+#
+- debug: msg="Configuring master"
+
+- name: Check for init files
+  stat: path=/var/lib/pgsql/9.6/data/pg_log
+  register: db_init
+
+- name: Initialize database on master
+  command: "/usr/pgsql-9.6/bin/postgresql96-setup initdb"
+  when: db_init.stat.exists == False
+
+# Todo Instead of ignore errors check if the repl role already exists:
+# DO
+# $body$
+# BEGIN
+#    IF NOT EXISTS (
+#       SELECT *
+#       FROM   pg_catalog.pg_user
+#       WHERE  usename = 'my_user') THEN
+#
+#       CREATE ROLE my_user LOGIN PASSWORD 'my_password';
+#    END IF;
+# END
+# $body$;
+
+- name: Ensure log and archive directories exist
+  file: path="/var/lib/pgsql/9.6/data/{{ item }}" state=directory owner="{{ postgresql_admin_user }}" group="{{ postgresql_admin_user }}" mode=0755
+  with_items:
+    - pg_xlog_archive
+    - pg_xlog
+
+- name: Enable replication
+  template: src=var/lib/pgsql/9.6/data/pg_hba.conf.j2 dest=/var/lib/pgsql/9.6/data/pg_hba.conf
+  register: hba_conf
+
+- name: Reload postgres if pg_hba.conf changed
+  service: name=postgresql-9.6.service state=reloaded
+  when: hba_conf.changed
+
+- name: Postgres configuration
+  template: src=var/lib/pgsql/9.6/data/postgresql.conf.j2 dest=/var/lib/pgsql/9.6/data/postgresql.conf  owner="{{ postgresql_admin_user }}" group="{{ postgresql_admin_user }}" mode=0640
+  notify: Reload postgres
+
+- name: Start postgres
+  service: name=postgresql-9.6.service state=started enabled=true
+
+- name: Wait for postgres to be started
+  wait_for: port=5432 delay=1
+
+- name: Create replication user
+  command: psql -c  "CREATE ROLE {{ postgres_repl_user }} REPLICATION LOGIN ENCRYPTED PASSWORD '{{ postgres_repl_user_password }}';"
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
+  ignore_errors: yes
+
+# Crontab config
+- cron:
+    name: "Remove logs after 3 days"
+    user: "postgres"
+    minute: "3"
+    hour: "0,6,12,18"
+    job: "/bin/find /data/pgsql/9.6/pg_archive/  -maxdepth 1 -user postgres -mtime +3 -exec mv -t /data/backup/pg_archive {} \\;"

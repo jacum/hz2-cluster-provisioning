@@ -1,0 +1,2 @@
+- name: Install postgres repo rpm
+  template: src=etc/yum.repos.d/pgdg-96-redhat.repo.j2 dest=/etc/yum.repos.d/pgdg-96-redhat.repo mode=0644

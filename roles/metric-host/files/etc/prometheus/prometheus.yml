@@ -57,4 +57,4 @@ scrape_configs:
     file_sd_configs:
       - files:
         - /etc/prometheus/marathon-tasks.json
-    refresh_interval: 1m
+        refresh_interval: 1m

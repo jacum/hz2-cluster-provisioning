@@ -1,0 +1,44 @@
+- name: Change owner of data directory
+  file: 
+    path=/data owner="{{ postgresql_admin_user }}" 
+    group="{{ postgresql_admin_user }}" 
+    mode=0755
+  notify: Restart postgres
+
+- name: Create postgres data directory
+  file: 
+    path="{{ postgresql_data_dir }}" 
+    state=directory
+    owner="{{ postgresql_admin_user }}" 
+    group="{{ postgresql_admin_user }}" 
+    mode=0755
+
+- name: Make sure postgres main backup directory exists (NFS share)
+  file: 
+    path: "/data/backup/" 
+    state: directory
+
+- name: Create postgres backup directories
+  file: 
+    path: "{{item}}" 
+    state: directory
+    owner: "{{ postgresql_admin_user }}" 
+    group: "{{ postgresql_admin_user }}" 
+    mode: 0750
+  with_items:
+     - "/data/backup/pg_basebackup"
+     - "/data/backup/pg_archive"
+
+- name: Create postgres 9.6 directory
+  file: 
+    path="{{ postgresql_data_dir }}/9.6"
+    state=directory
+    owner="{{ postgresql_admin_user }}" 
+    group="{{ postgresql_admin_user }}" 
+    mode=0755
+
+- name: Create symlink from default location to data dir
+  file: 
+    state=link
+    src={{ postgresql_data_dir }} 
+    dest="/var/lib/pgsql" 
