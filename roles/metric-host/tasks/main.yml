@@ -29,8 +29,8 @@
   copy:
     src: "etc/prometheus/prometheus.yml"
     dest: "/etc/prometheus/prometheus.yml"
-    owner: "root"
-    mode: 0700
+    owner: "prometheus"
+    mode: 0744
 
 - name: Copy Prometheus cron script
   copy:
