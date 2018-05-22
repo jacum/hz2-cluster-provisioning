@@ -35,8 +35,7 @@ metric_proxy_hosts = [
 # opener = urllib2.build_opener(auth_manager)
 # urllib2.install_opener(opener)
 
-marathon_tasks = ""
-
+marathon_tasks = []
 
 def fetchJobsFrom(host):
     try:
@@ -49,10 +48,9 @@ def fetchJobsFrom(host):
 for metered_host in metric_proxy_hosts:
     host = metered_host['host']
     for job in fetchJobsFrom(host):
-        marathon_tasks += """
-  - job_name: '{name}'
-    metrics_path: {url}
-    static_configs:
-    - targets: ['{host}:{port}']""".format(name=job['job'], host=host, port=metric_proxy_port, url=job['url'])
+        marathon_tasks += {
+            "labels" : { "job" : job['job'], "__metrics_path__": job['url'] },
+            "targets" : [ host + ":" + str(metric_proxy_port) ]
+        }
 
-print(marathon_tasks)
+print(json.dumps(marathon_tasks, indent=4, sort_keys=True))
