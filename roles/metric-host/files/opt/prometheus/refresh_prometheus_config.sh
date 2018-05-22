@@ -6,7 +6,7 @@ new_config=/tmp/prometheus.yml
 update_and_restart()
 {
 cp $new_config $existing_config
-/sbin/service prometheus reload
+servicectl reload prometheus
 echo "config updated and reloaded"
 }
 
