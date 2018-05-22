@@ -37,6 +37,7 @@ metric_proxy_hosts = [
 
 marathon_tasks = []
 
+
 def fetchJobsFrom(host):
     try:
         return json.loads(urllib2.urlopen(scheme + host + ":" + str(metric_proxy_port) + "/metrics").read())
@@ -48,9 +49,9 @@ def fetchJobsFrom(host):
 for metered_host in metric_proxy_hosts:
     host = metered_host['host']
     for job in fetchJobsFrom(host):
-        marathon_tasks += {
-            "labels" : { "job" : job['job'], "__metrics_path__": job['url'] },
-            "targets" : [ host + ":" + str(metric_proxy_port) ]
-        }
+        marathon_tasks.append({
+            "labels": {"job": job['job'], "__metrics_path__": job['url']},
+            "targets": [host + ":" + str(metric_proxy_port)]
+        })
 
 print(json.dumps(marathon_tasks, indent=4, sort_keys=True))
