@@ -1,4 +1,9 @@
-- name: create prometheus system user
+- name: create postgres group
+  group:
+    name: "{{ postgresql_admin_user }}"
+    state: present
+
+- name: create postgres system user
   user:
     name: "{{ postgresql_admin_user }}"
     system: yes
