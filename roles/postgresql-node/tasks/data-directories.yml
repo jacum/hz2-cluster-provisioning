@@ -9,7 +9,7 @@
     system: yes
     shell: "/sbin/nologin"
     group: "{{ postgresql_admin_user }}"
-    createhome: no
+    home: "{{ postgresql_data_dir }}"
 
 - name: Change owner of data directory
   file: 

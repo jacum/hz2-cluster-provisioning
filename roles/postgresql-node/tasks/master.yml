@@ -56,6 +56,15 @@
   become_user: "{{ postgresql_admin_user }}"
   ignore_errors: yes
 
+- name: Copy metrics sql
+  template: src="tmp/metrics.sql.j2" dest="/tmp/metrics.sql" owner="{{ postgresql_admin_user }}" mode=0644
+
+- name: Execute metrics sql
+  command:  "psql -f /tmp/metrics.sql"
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
+  ignore_errors: yes
+
 # Crontab config
 - cron:
     name: "Remove logs after 3 days"
