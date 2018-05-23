@@ -1,6 +1,11 @@
 
 postgresql_admin_user: postgres
+
 postgres_repl_user: repl
+postgres_repl_user_password: replpass
+
+postgres_metrics_user: postgres_exporter
+postgres_metrics_user_password: postgres_exporterpass
 
 postgresql_data_dir: /data/pgsql
 
