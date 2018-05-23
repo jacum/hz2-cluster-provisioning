@@ -44,7 +44,7 @@
 
 - name: Create postgres 9.6 directory
   file:
-    path="{{ postgresql_data_dir }}/9.6/pg_xlog"
+    path="{{ postgresql_data_dir }}/9.6/data/pg_xlog"
     state=directory
     owner="{{ postgresql_admin_user }}"
     group="{{ postgresql_admin_user }}"
