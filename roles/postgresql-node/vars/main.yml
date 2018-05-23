@@ -9,3 +9,4 @@ postgres_metrics_user_password: postgres_exporterpass
 
 postgresql_data_dir: /data/pgsql
 
+postgres_master: 192.168.122.104
