@@ -57,11 +57,7 @@
     mode=0755
 
 - name: Copy metrics sql
-  copy:
-    src: "tmp/metrics.sql"
-    dest: "/tmp/metrics.sql"
-    owner: "{{ postgresql_admin_user }}"
-    mode: 0744
+  template: src: "tmp/metrics.sql.j2" dest: "/tmp/metrics.sql" owner: "{{ postgresql_admin_user }}" mode: 0644
 
 - name: Execute metrics sql
   command:  "psql -f /tmp/metrics.sql"
