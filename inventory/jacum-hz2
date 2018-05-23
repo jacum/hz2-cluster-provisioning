@@ -47,7 +47,7 @@ hz2-n08
 [log-server]
 hz2-n09
 
-[postgres-node]
+[postgresql-node]
 hz2-n04 postgres_role=master
 hz2-n05 postgres_role=slave
 hz2-n06 postgres_role=slave
