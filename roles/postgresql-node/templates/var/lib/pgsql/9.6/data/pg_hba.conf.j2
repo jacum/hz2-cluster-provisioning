@@ -1,23 +1,9 @@
 local all {{ postgresql_admin_user }} ident
 
-host {{ mdp_db_name }} {{ mdp_db_user }} 0.0.0.0/0 md5
-host {{ mdp_admin_db_name }} {{ mdp_admin_db_user }} 0.0.0.0/0 md5
-host {{ auth_service_db_name }} {{ auth_service_db_user }} 0.0.0.0/0 md5
-host {{ parcelshop_locator_db_name }} {{ parcelshop_locator_db_user }} 0.0.0.0/0 md5
-host {{ address_service_db_name }} {{ address_service_db_user }} 0.0.0.0/0 md5
-host {{ label_service_db_name }} {{ label_service_db_user }} 0.0.0.0/0 md5
-host {{ capability_service_db_name }} {{ capability_service_db_user }} 0.0.0.0/0 md5
-host {{ pickup_service_db_name }} {{ pickup_service_db_user }} 0.0.0.0/0 md5
-host {{ import_service_db_name }} {{ import_service_db_user }} 0.0.0.0/0 md5
-host {{ notification_service_db_name }} {{ notification_service_db_user }} 0.0.0.0/0 md5
-host {{ deliveryservice_db_name }} {{ deliveryservice_db_user }} 0.0.0.0/0 md5
-host {{ loadingservice_db_name }} {{ loadingservice_db_user }} 0.0.0.0/0 md5
-host {{ interventionservice_db_name }} {{ interventionservice_db_user }} 0.0.0.0/0 md5
-host {{ addressservice_db_name }} {{ addressservice_db_user }} 0.0.0.0/0 md5
-{% for host in groups['postgresnodes'] %}
-{%if hostvars[host]['ansible_eth1']['ipv4']['address'] == ansible_eth1.ipv4.address %}
+{% for host in groups['postgresql-nodes'] %}
+{%if hostvars[host]['ansible_eth1']['ipv4']['address'] == ansible_eth0.ipv4.address %}
 host    replication    all        127.0.0.1/32  ident
 {% else %}
-host    replication    all      {{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}/32 md5
+host    replication    all      {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}/32 md5
 {% endif %}
 {% endfor %}

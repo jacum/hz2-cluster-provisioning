@@ -93,7 +93,7 @@
      tags: ['metric-host']
 
 - name: PostgreSQL node
-  hosts: postgresql-node
+  hosts: postgresql-nodes
   roles:
    - role: postgresql-node
      tags: ['postgresql']
