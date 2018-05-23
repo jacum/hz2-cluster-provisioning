@@ -43,15 +43,15 @@
      - "/data/backup/pg_archive"
 
 - name: Create postgres 9.6 directory
-  file: 
-    path="{{ postgresql_data_dir }}/9.6"
+  file:
+    path="{{ postgresql_data_dir }}/9.6/pg_xlog"
     state=directory
-    owner="{{ postgresql_admin_user }}" 
-    group="{{ postgresql_admin_user }}" 
+    owner="{{ postgresql_admin_user }}"
+    group="{{ postgresql_admin_user }}"
     mode=0755
 
 - name: Create symlink from default location to data dir
   file: 
     state=link
     src={{ postgresql_data_dir }} 
-    dest="/var/lib/pgsql" 
+    dest="/var/lib/pgsql"
