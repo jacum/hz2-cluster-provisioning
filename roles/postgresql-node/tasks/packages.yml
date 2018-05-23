@@ -2,7 +2,7 @@
   yum: 
     name="{{ item }}" 
     state=latest 
-    enablerepo="{{ yum_repos }}" 
+    enablerepo="pgdg96"
     update_cache=yes
   with_items:
     - postgresql96-server
