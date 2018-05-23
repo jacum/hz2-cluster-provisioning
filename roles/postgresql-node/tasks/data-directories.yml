@@ -44,14 +44,14 @@
 
 - name: Create postgres 9.6 directory
   file:
-    path="{{ postgresql_data_dir }}/9.6/data/pg_xlog"
+    path="{{ postgresql_data_dir }}/9.6/data"
     state=directory
     owner="{{ postgresql_admin_user }}"
     group="{{ postgresql_admin_user }}"
     mode=0755
 
 - name: Create symlink from default location to data dir
-  file: 
+  file:
     state=link
-    src={{ postgresql_data_dir }} 
+    src={{ postgresql_data_dir }}
     dest="/var/lib/pgsql"

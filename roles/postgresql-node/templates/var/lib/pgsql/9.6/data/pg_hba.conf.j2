@@ -1,7 +1,7 @@
 local all {{ postgresql_admin_user }} ident
 
 {% for host in groups['postgresql-nodes'] %}
-{%if hostvars[host]['ansible_eth1']['ipv4']['address'] == ansible_eth0.ipv4.address %}
+{%if hostvars[host]['ansible_eth0']['ipv4']['address'] == ansible_eth0.ipv4.address %}
 host    replication    all        127.0.0.1/32  ident
 {% else %}
 host    replication    all      {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}/32 md5

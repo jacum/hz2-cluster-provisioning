@@ -9,37 +9,6 @@
 - name: Authentication file for pg_basebackup
   template: src=var/lib/pgsql/.pgpass.j2 dest=/var/lib/pgsql/.pgpass owner="{{ postgresql_admin_user }}" group="{{ postgresql_admin_user }}" mode=0600
 
-# The dummy file can be removed if the DB doesn't start because pg_xlog is full
-- name: Check if file exists
-  stat:
-    path: /var/lib/pgsql/9.6/data/pg_xlog/dummy_data1
-  register: dummy_data1
-
-- name: Create empty file with 20M size
-  command: /usr/bin/fallocate -l 20M /var/lib/pgsql/9.6/data/pg_xlog/dummy_data1
-  when: not dummy_data1.stat.exists or not dummy_data1.stat.size == 20971520
-
-- file:
-    path: /var/lib/pgsql/9.6/data/pg_xlog/dummy_data1
-    owner: "{{ postgresql_admin_user }}"
-    group: "{{ postgresql_admin_user }}"
-    mode: 0640
-
-- name: Check if file exists
-  stat:
-    path: /var/lib/pgsql/9.6/data/pg_xlog/dummy_data2
-  register: dummy_data2
-
-- name: Create empty file with 20M size
-  command: /usr/bin/fallocate -l 20M /var/lib/pgsql/9.6/data/pg_xlog/dummy_data2
-  when: not dummy_data2.stat.exists or not dummy_data2.stat.size == 20971520
-
-- file:
-    path: /var/lib/pgsql/9.6/data/pg_xlog/dummy_data2
-    owner: "{{ postgresql_admin_user }}"
-    group: "{{ postgresql_admin_user }}"
-    mode: 0640
-
 - name: Set permissions for data directory
   file: 
     path="{{ postgresql_data_dir }}/9.6/data"
