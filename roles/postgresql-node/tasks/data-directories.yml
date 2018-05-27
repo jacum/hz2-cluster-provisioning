@@ -1,9 +1,9 @@
-- name: create postgres group
+- name: create postgres group {{ postgresql_admin_user }}
   group:
     name: "{{ postgresql_admin_user }}"
     state: present
 
-- name: create postgres system user
+- name: create postgres system user {{ postgresql_admin_user }}
   user:
     name: "{{ postgresql_admin_user }}"
     system: yes
@@ -18,7 +18,7 @@
     mode=0755
   notify: Restart postgres
 
-- name: Create postgres data directory
+- name: Create postgres data directory {{postgresql_data_dir}}
   file: 
     path="{{ postgresql_data_dir }}" 
     state=directory

@@ -2,13 +2,13 @@
 #
 # Postgres node  config
 #
-- debug: msg="Configuring master"
+- debug: msg="Configuring master {{ansible_host}}"
 
-- name: Check for init files
+- name: Master: Check for init files
   stat: path=/var/lib/pgsql/9.6/data/pg_log
   register: db_init
 
-- name: Initialize database on master
+- name: Master: Initialize database on master
   command: "/usr/pgsql-9.6/bin/postgresql96-setup initdb"
   when: db_init.stat.exists == False
 
@@ -26,7 +26,7 @@
 # END
 # $body$;
 
-- name: Ensure log and archive directories exist
+- name: Master: Ensure log and archive directories exist
   file: path="/var/lib/pgsql/9.6/data/{{ item }}" state=directory owner="{{ postgresql_admin_user }}" group="{{ postgresql_admin_user }}" mode=0755
   with_items:
     - pg_xlog_archive
@@ -36,30 +36,30 @@
   template: src=var/lib/pgsql/9.6/data/pg_hba.conf.j2 dest=/var/lib/pgsql/9.6/data/pg_hba.conf
   register: hba_conf
 
-- name: Reload postgres if pg_hba.conf changed
+- name: Master: Reload postgres if pg_hba.conf changed
   service: name=postgresql-9.6.service state=reloaded
   when: hba_conf.changed
 
-- name: Postgres configuration
+- name: Master: Postgres configuration
   template: src=var/lib/pgsql/9.6/data/postgresql.conf.j2 dest=/var/lib/pgsql/9.6/data/postgresql.conf  owner="{{ postgresql_admin_user }}" group="{{ postgresql_admin_user }}" mode=0640
   notify: Reload postgres
 
-- name: Start postgres
+- name: Master: Start postgres
   service: name=postgresql-9.6.service state=started enabled=true
 
-- name: Wait for postgres to be started
+- name: Master: Wait for postgres to be started
   wait_for: port=5432 delay=1
 
-- name: Create replication user
+- name: Master: Create replication user
   command: psql -c  "CREATE ROLE {{ postgres_repl_user }} REPLICATION LOGIN ENCRYPTED PASSWORD '{{ postgres_repl_user_password }}';"
   become: true
   become_user: "{{ postgresql_admin_user }}"
   ignore_errors: yes
 
-- name: Copy metrics sql
+- name: Master: Copy metrics sql
   template: src="tmp/metrics.sql.j2" dest="/tmp/metrics.sql" owner="{{ postgresql_admin_user }}" mode=0644
 
-- name: Execute metrics sql
+- name: Master: Execute metrics sql
   command:  "psql -f /tmp/metrics.sql"
   become: true
   become_user: "{{ postgresql_admin_user }}"
