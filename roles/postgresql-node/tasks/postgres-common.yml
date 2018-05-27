@@ -1,4 +1,8 @@
-- ini_file:
+- name: Enable postgres
+  service: name=postgresql-9.6.service enabled=true
+
+- name: Modify ini file
+  ini_file:
     path: /etc/systemd/system/multi-user.target.wants/postgresql-9.6.service
     section: Unit
     option: After
