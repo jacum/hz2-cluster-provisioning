@@ -1,7 +1,8 @@
 - name: Install postgres
   yum: 
     name="{{ item }}" 
-    state=latest 
+    state=latest
+    disablerepo=*
     enablerepo="pgdg96"
     update_cache=yes
   with_items:
