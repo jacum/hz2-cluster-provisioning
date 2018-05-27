@@ -16,10 +16,10 @@
 
 - name: Configure pg_hba
   template: src=var/lib/pgsql/9.6/data/pg_hba.conf.j2 dest=/var/lib/pgsql/9.6/data/pg_hba.conf
-  notify: Reload postgres
+  notify: Restart postgres
 
 - name: Start postgres
-  service: name=postgresql-9.6.service state=started enabled=true
+  service: name=postgresql-9.6.service state=restarted enabled=true
 
 # Crontab config
 - cron:

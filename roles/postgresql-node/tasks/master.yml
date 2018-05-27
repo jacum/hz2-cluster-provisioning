@@ -45,7 +45,7 @@
   notify: Reload postgres
 
 - name: Master - Start postgres
-  service: name=postgresql-9.6.service state=started enabled=true
+  service: name=postgresql-9.6.service state=restarted enabled=true
 
 - name: Master - Wait for postgres to be started
   wait_for: port=5432 delay=1
