@@ -7,13 +7,13 @@
   user:
     name: "{{ postgresql_admin_user }}"
     system: yes
-    shell: "/bin/false"
+    shell: "/bin/bash"
     group: "{{ postgresql_admin_user }}"
     home: "{{ postgresql_data_dir }}"
 
 - name: Change owner of data directory
   file: 
-    path=/data owner="{{ postgresql_admin_user }}" 
+    path=/data/pgsql/ owner="{{ postgresql_admin_user }}"
     group="{{ postgresql_admin_user }}" 
     mode=0755
   notify: Restart postgres
