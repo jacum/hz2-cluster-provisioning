@@ -7,7 +7,7 @@
   user:
     name: "{{ postgresql_admin_user }}"
     system: yes
-    shell: "/sbin/nologin"
+    shell: "/bin/false"
     group: "{{ postgresql_admin_user }}"
     home: "{{ postgresql_data_dir }}"
 
