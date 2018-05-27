@@ -1,7 +1,7 @@
 - include: systemtweaks.yml
 - include: repositories.yml
-- include: packages.yml
 - include: data-directories.yml
+- include: packages.yml
 - include: postgres-common.yml
 - include: master.yml
   when: postgres_role is defined and postgres_role == "master"
